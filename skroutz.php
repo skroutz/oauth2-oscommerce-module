@@ -52,7 +52,7 @@ if(isset($_GET['code']))
     $user = json_decode($content);
 
     require('includes/application_top.php');
-    $url = preg_split('/\?/', tep_href_link('skrz_login.php','','SSL'), 0, PREG_SPLIT_NO_EMPTY);
+    $url = preg_split('/\?/', tep_href_link('skroutz_login.php','','SSL'), 0, PREG_SPLIT_NO_EMPTY);
     // Check if email exists
     $check_customer_query = tep_db_query("select customers_id, customers_firstname, customers_password, customers_email_address, customers_default_address_id from " . TABLE_CUSTOMERS . " where customers_email_address = '" . $user->email . "'");
     if (!tep_db_num_rows($check_customer_query)) {
