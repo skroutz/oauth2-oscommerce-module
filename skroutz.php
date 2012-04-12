@@ -2,7 +2,19 @@
 // your data here
 $client_id='';
 $client_secret='';
+
+// if you want to hardcode the redirect_uri add it here
+// otherwise it will be calculated automatically
+// and by default point to this script
 $redirect_uri='';
+
+/************************************
+ * No need to change anything below *
+ ************************************/
+if (!isset($redirect_uri) || $redirect_uri == '') {
+    $redirect_uri = (isset($_SERVER['HTTPSS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+    $redirect_uri .= $_SERVER["HTTP_HOST"] . $_SERVER['SCRIPT_NAME'];
+}
 
 if(isset($_GET['code']))
 {
