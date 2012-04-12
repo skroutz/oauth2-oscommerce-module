@@ -1,4 +1,4 @@
-<?php
+<?php // vim: set ft=php et ts=4 sts=4 sw=4 ai si:
 class bm_skroutz {
 
     var $code = 'bm_skroutz';
