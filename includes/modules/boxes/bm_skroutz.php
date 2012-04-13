@@ -32,10 +32,10 @@ class bm_skroutz {
 
     function execute() {
         global  $oscTemplate;
-        $button = $this->getData();
+        $formData = $this->getData();
         $data = '<div>'.
                 '    <div class="ui-widget-header infoBoxHeading">'.$this->title.'</div>'.
-                '    <div class="ui-widget-content infoBoxContents">'.$button.'</div>'.
+                '    <div class="ui-widget-content infoBoxContents">'.$formData.'</div>'.
                 '</div>';
         $oscTemplate->addBlock($data, $this->group);
     }
