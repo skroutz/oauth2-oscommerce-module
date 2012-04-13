@@ -5,12 +5,25 @@ class bm_skroutz {
     var $group = 'boxes';
     var $title;
     var $description;
+    var $logo;
+    var $list_header;
+    var $list_item1;
+    var $list_item2;
+    var $list_item3;
+    var $more;
+    var $button;
     var $sort_order;
     var $enabled = false;
 
     function bm_skroutz() {
         $this->title = MODULE_BOXES_SKROUTZ_TITLE;
         $this->description = MODULE_BOXES_SKROUTZ_DESCRIPTION;
+        $this->logo = 'skroutz_logo_90x30.png';
+        $this->list_header = MODULE_BOXES_SKROUTZ_LIST_HEADER;
+        $this->list_item1 = MODULE_BOXES_SKROUTZ_LIST_ITEM1;
+        $this->list_item2 = MODULE_BOXES_SKROUTZ_LIST_ITEM2;
+        $this->list_item3 = MODULE_BOXES_SKROUTZ_LIST_ITEM3;
+        $this->more = MODULE_BOXES_SKROUTZ_MORE;
         $this->button = MODULE_BOXES_SKROUTZ_BUTTON;
 
         if ( defined('MODULE_BOXES_SKROUTZ_STATUS') ) {
@@ -25,7 +38,18 @@ class bm_skroutz {
 
         // Display the button
         $content = tep_draw_form('skroutz_easy', tep_href_link('skroutz.php', '', 'NONSSL', false), 'post').
-            tep_draw_input_field('submit',$this->button,'','submit').
+            '<div align="center">'.
+            tep_image(DIR_WS_IMAGES.$this->logo, $this->title).
+            '</div>'.
+            '<div style="margin: 5px 0">'.$this->description.'.</div>'.
+            $this->list_header.':'.
+            '<ul style="margin: 0 0 0.5em 2em; padding-left: 0">'.
+            '  <li>'.$this->list_item1.'</li>'.
+            '  <li>'.$this->list_item2.'</li>'.
+            '  <li>'.$this->list_item3.'</li>'.
+            '</ul>'.
+            '<div align="center"><a href="http://www.skroutz.gr/easy" style="color: #F68B24">'.$this->more.'</a></div>'.
+            tep_draw_input_field('submit', $this->button, 'style="width: 100%; word-wrap: break-word"', 'submit').
             '</form>';
         return $content;
     }
