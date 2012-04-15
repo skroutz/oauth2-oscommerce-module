@@ -11,6 +11,11 @@ $redirect_uri = '';
 /************************************
  * No need to change anything below *
  ************************************/
+$site = 'https://www.skroutz.gr';
+$authorization_url = '/oauth2/authorizations/new';
+$token_url = '/oauth2/token';
+$address_url = '/oauth2/address';
+
 if (!isset($redirect_uri) || $redirect_uri == '') {
     $redirect_uri = (isset($_SERVER['HTTPSS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
     $redirect_uri .= $_SERVER["HTTP_HOST"] . $_SERVER['SCRIPT_NAME'];
@@ -18,7 +23,7 @@ if (!isset($redirect_uri) || $redirect_uri == '') {
 
 if (isset($_GET['code'])) {
     // set POST variables
-    $url = 'https://www.skroutz.gr/oauth2/token';
+    $url = $site . $token_url;
     $fields = array(
         'code' => urlencode($_GET['code']),
         'client_id' => urlencode($client_id),
@@ -48,7 +53,7 @@ if (isset($_GET['code'])) {
     curl_close($ch);
     $theResult = json_decode($result);
     $oauth_token = $theResult->access_token;
-    $url = 'https://www.skroutz.gr/oauth2/address';
+    $url = $site . $address_url;
     $qry_str = "?oauth_token=" . urlencode($oauth_token);
 
     $ch = curl_init();
@@ -96,6 +101,6 @@ if (isset($_GET['code'])) {
         </script>
     <?php }
 } else {
-    header('Location: https://www.skroutz.gr/oauth2/authorizations/new?client_id=' . urlencode($client_id) . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code');
+    header('Location: ' . $site . $authorization_url . '?client_id=' . urlencode($client_id) . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code');
 }
 ?>
