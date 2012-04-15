@@ -1,23 +1,31 @@
 <?php // vim: set ft=php et ts=4 sts=4 sw=4 ai si:
 // login
-if($_POST['mytype'] == 1){
+if ($_POST['mytype'] == 1){
+
     require('includes/application_top.php');
+
     // redirect the customer to a friendly cookie-must-be-enabled page if cookies are disabled (or the session has not started)
     if ($session_started == false) {
         tep_redirect(tep_href_link(FILENAME_COOKIE_USAGE));
     }
+
     require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_LOGIN);
+
     $error = false;
     $email_address = tep_db_prepare_input($HTTP_POST_VARS['email_address']);
+
     // Check if email exists
     $check_customer_query = tep_db_query("select customers_id, customers_firstname, customers_password, customers_email_address, customers_default_address_id from " . TABLE_CUSTOMERS . " where customers_email_address = '" . tep_db_input($email_address) . "'");
+
     if (!tep_db_num_rows($check_customer_query)) {
         $error = true;
     } else {
         $check_customer = tep_db_fetch_array($check_customer_query);
+
         if (SESSION_RECREATE == 'True') {
             tep_session_recreate();
         }
+
         $check_country_query = tep_db_query("select entry_country_id, entry_zone_id from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$check_customer['customers_id'] . "' and address_book_id = '" . (int)$check_customer['customers_default_address_id'] . "'");
         $check_country = tep_db_fetch_array($check_country_query);
         $customer_id = $check_customer['customers_id'];
@@ -41,12 +49,16 @@ if($_POST['mytype'] == 1){
             tep_redirect(tep_href_link(FILENAME_DEFAULT));
         }
     }
+
     if ($error == true) {
         $messageStack->add('login', TEXT_LOGIN_ERROR);
     }
+
 // create user
-}elseif($_POST['mytype'] == 2){
+} elseif($_POST['mytype'] == 2) {
+
     require('includes/application_top.php');
+
     // needs to be included earlier to set the success message in the messageStack
     require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CREATE_ACCOUNT);
 
@@ -64,7 +76,6 @@ if($_POST['mytype'] == 1){
     $fax = tep_db_prepare_input($HTTP_POST_VARS['fax']);
     $newsletter = false;
     $password = tep_db_prepare_input("skroutz_login");
-//    $confirmation = tep_db_prepare_input($HTTP_POST_VARS['confirmation']);
 
     $sql_data_array = array(
         'customers_firstname' => $firstname,
