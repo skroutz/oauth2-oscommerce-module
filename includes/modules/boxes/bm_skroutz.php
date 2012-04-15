@@ -24,7 +24,7 @@ class bm_skroutz {
         global $PHP_SELF,$HTTP_GET_VARS;
 
         // Display the button
-        $content = tep_draw_form('manufacturers', tep_href_link('skroutz.php', '', 'NONSSL', false), 'post').
+        $content = tep_draw_form('skroutz_easy', tep_href_link('skroutz.php', '', 'NONSSL', false), 'post').
             tep_draw_input_field('submit',$this->button,'','submit').
             '</form>';
         return $content;
@@ -49,7 +49,7 @@ class bm_skroutz {
     }
 
     function install() {
-        tep_db_query("insert into ".TABLE_CONFIGURATION." (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Submit designs Module', 'MODULE_BOXES_SKROUTZ_STATUS', 'True', 'Do you want to add the module to your shop?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
+        tep_db_query("insert into ".TABLE_CONFIGURATION." (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Skroutz Easy Module', 'MODULE_BOXES_SKROUTZ_STATUS', 'True', 'Do you want to add the module to your shop?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
 
         tep_db_query("insert into ".TABLE_CONFIGURATION." (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Placement', 'MODULE_BOXES_SKROUTZ_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', '6', '1', 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), ', now())");
 
