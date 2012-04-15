@@ -1,6 +1,7 @@
 <?php // vim: set ft=php et ts=4 sts=4 sw=4 ai si:
-// your data here
+// Enter your key here (client_id)
 $client_id = '';
+// Enter your secret here (client_secret)
 $client_secret = '';
 
 // if you want to hardcode the redirect_uri add it here
