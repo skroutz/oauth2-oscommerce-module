@@ -75,7 +75,8 @@ if ($_POST['mytype'] == 1){
     $telephone = tep_db_prepare_input($HTTP_POST_VARS['telephone']);
     $fax = tep_db_prepare_input($HTTP_POST_VARS['fax']);
     $newsletter = false;
-    $password = tep_db_prepare_input("skroutz_login");
+    $password = tep_db_prepare_input(substr($email_address, 0, strpos($email_address, '@')).
+        str_pad(mt_rand(1, 99), 2, '0', STR_PAD_LEFT));
 
     $sql_data_array = array(
         'customers_firstname' => $firstname,
