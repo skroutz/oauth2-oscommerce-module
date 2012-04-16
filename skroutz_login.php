@@ -63,18 +63,39 @@ if ($_POST['mytype'] == 1){
     require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CREATE_ACCOUNT);
 
     $process = true;
-    $gender = false;
+
+    if (ACCOUNT_GENDER == 'true') {
+        if (isset($HTTP_POST_VARS['gender'])) {
+            $gender = tep_db_prepare_input($HTTP_POST_VARS['gender']);
+        } else {
+            $gender = false;
+        }
+    }
     $firstname = tep_db_prepare_input($HTTP_POST_VARS['firstname']);
     $lastname = tep_db_prepare_input($HTTP_POST_VARS['lastname']);
+    if (ACCOUNT_DOB == 'true') $dob = tep_db_prepare_input($HTTP_POST_VARS['dob']);
     $email_address = tep_db_prepare_input($HTTP_POST_VARS['email_address']);
     if (ACCOUNT_COMPANY == 'true') $company = tep_db_prepare_input($HTTP_POST_VARS['company']);
     $street_address = tep_db_prepare_input($HTTP_POST_VARS['street_address']);
+    if (ACCOUNT_SUBURB == 'true') $suburb = tep_db_prepare_input($HTTP_POST_VARS['suburb']);
     $postcode = tep_db_prepare_input($HTTP_POST_VARS['postcode']);
     $city = tep_db_prepare_input($HTTP_POST_VARS['city']);
+    if (ACCOUNT_STATE == 'true') {
+        $state = tep_db_prepare_input($HTTP_POST_VARS['state']);
+        if (isset($HTTP_POST_VARS['zone_id'])) {
+            $zone_id = tep_db_prepare_input($HTTP_POST_VARS['zone_id']);
+        } else {
+            $zone_id = false;
+        }
+    }
     $country = tep_db_prepare_input($HTTP_POST_VARS['country']);
     $telephone = tep_db_prepare_input($HTTP_POST_VARS['telephone']);
     $fax = tep_db_prepare_input($HTTP_POST_VARS['fax']);
-    $newsletter = false;
+    if (isset($HTTP_POST_VARS['newsletter'])) {
+        $newsletter = tep_db_prepare_input($HTTP_POST_VARS['newsletter']);
+    } else {
+        $newsletter = false;
+    }
     $password = tep_db_prepare_input(substr($email_address, 0, strpos($email_address, '@')).
         str_pad(mt_rand(1, 99), 2, '0', STR_PAD_LEFT));
 
@@ -88,8 +109,13 @@ if ($_POST['mytype'] == 1){
         'customers_password' => tep_encrypt_password($password)
     );
 
+    if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
+    if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = tep_date_raw($dob);
+
     tep_db_perform(TABLE_CUSTOMERS, $sql_data_array);
+
     $customer_id = tep_db_insert_id();
+
     $sql_data_array = array(
         'customers_id' => $customer_id,
         'entry_firstname' => $firstname,
@@ -100,12 +126,27 @@ if ($_POST['mytype'] == 1){
         'entry_country_id' => $country
     );
 
+    if (ACCOUNT_GENDER == 'true') $sql_data_array['entry_gender'] = $gender;
     if (ACCOUNT_COMPANY == 'true') $sql_data_array['entry_company'] = $company;
+    if (ACCOUNT_SUBURB == 'true') $sql_data_array['entry_suburb'] = $suburb;
+    if (ACCOUNT_STATE == 'true') {
+        if ($zone_id > 0) {
+            $sql_data_array['entry_zone_id'] = $zone_id;
+            $sql_data_array['entry_state'] = '';
+        } else {
+            $sql_data_array['entry_zone_id'] = '0';
+            $sql_data_array['entry_state'] = $state;
+        }
+    }
 
     tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array);
+
     $address_id = tep_db_insert_id();
+
     tep_db_query("update " . TABLE_CUSTOMERS . " set customers_default_address_id = '" . (int)$address_id . "' where customers_id = '" . (int)$customer_id . "'");
+
     tep_db_query("insert into " . TABLE_CUSTOMERS_INFO . " (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) values ('" . (int)$customer_id . "', '0', now())");
+
     if (SESSION_RECREATE == 'True') {
         tep_session_recreate();
     }
@@ -132,6 +173,7 @@ if ($_POST['mytype'] == 1){
     $email_text = sprintf(EMAIL_GREET_NONE, $firstname);
     $email_text .= EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING;
     tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+
     tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));
 }
 ?>
