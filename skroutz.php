@@ -97,7 +97,9 @@ if (isset($_GET['code'])) {
             document.forms["create_account"].submit();
         </script>
 <?  } else { ?>
-        <?= tep_draw_form('login', $url[0], 'post', '', true) ?>
+        <? // register a session variable to mark we come from oauth
+           tep_session_register('oauth_login'); ?>
+        <?= tep_draw_form('login', $url[0], 'post', '', true) . tep_draw_hidden_field('action', 'process') ?>
         <input type="hidden" name="email_address" value="<?= $user->email ?>" />
         <input type="hidden" name="mytype" value="1" />
         </form>
