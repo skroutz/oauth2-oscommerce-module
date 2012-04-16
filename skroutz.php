@@ -128,6 +128,10 @@ if (isset($_GET['code'])) {
             document.forms["login"].submit();
         </script>
 <?  }
+} else if (isset($_GET['error'])) {
+    require('includes/application_top.php');
+
+    tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'));
 } else {
     header('Location: ' . $site . $authorization_url . '?client_id=' . urlencode($client_id) . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code');
 }
