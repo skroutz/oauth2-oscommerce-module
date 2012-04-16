@@ -23,6 +23,8 @@ if (!isset($redirect_uri) || $redirect_uri == '') {
 }
 
 if (isset($_GET['code'])) {
+    require('includes/application_top.php');
+
     // set POST variables
     $url = $site . $token_url;
     $fields = array(
@@ -48,27 +50,45 @@ if (isset($_GET['code'])) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-    // execute post
-    $result = curl_exec($ch);
+    // execute POST
+    $json = curl_exec($ch);
 
     // close connection
     curl_close($ch);
-    $theResult = json_decode($result);
-    $oauth_token = $theResult->access_token;
+
+    // get oauth_token
+    $result = json_decode($json);
+
+    if (isset($result->error)) {
+        //handle error
+        tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'));
+    }
+
+    // get the address
+    $oauth_token = $result->access_token;
     $url = $site . $address_url;
     $qry_str = "?oauth_token=" . urlencode($oauth_token);
 
+    // open connection
     $ch = curl_init();
-    // Set query data here with the URL
+
+    // set query data here with the URL
     curl_setopt($ch, CURLOPT_URL, $url . $qry_str);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-    $content = trim(curl_exec($ch));
+
+    // execute GET
+    $json = trim(curl_exec($ch));
+
+    // close connection
     curl_close($ch);
 
-    $user = json_decode($content);
+    $user = json_decode($json);
 
-    require('includes/application_top.php');
+    if (isset($user->error)) {
+        //handle error
+        tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'));
+    }
 
     $url = preg_split('/\?/', tep_href_link('skroutz_login.php', '', 'SSL'), 0, PREG_SPLIT_NO_EMPTY);
 
