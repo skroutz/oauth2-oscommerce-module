@@ -96,21 +96,21 @@ if (isset($_GET['code'])) {
     $check_customer_query = tep_db_query("select customers_id, customers_firstname, customers_password, customers_email_address, customers_default_address_id from " . TABLE_CUSTOMERS . " where customers_email_address = '" . $user->email . "'");
 
     if (!tep_db_num_rows($check_customer_query)) { ?>
-        <?= tep_draw_form('create_account', $url[0], 'post', 'onsubmit="return check_form(create_account);"', true) . tep_draw_hidden_field('action', 'process') ?>
+        <?php echo tep_draw_form('create_account', $url[0], 'post', 'onsubmit="return check_form(create_account);"', true) . tep_draw_hidden_field('action', 'process') ?>
         <input type="hidden" name="gender" value="m" />
-        <input type="hidden" name="firstname" value="<?= $user->first_name ?>" />
-        <input type="hidden" name="lastname" value="<?= $user->last_name ?>" />
+        <input type="hidden" name="firstname" value="<?php echo $user->first_name ?>" />
+        <input type="hidden" name="lastname" value="<?php echo $user->last_name ?>" />
         <input type="hidden" name="dob" value="01/01/1900" />
-        <input type="hidden" name="email_address" value="<?= $user->email ?>" />
-        <input type="hidden" name="company" value="<?= $user->company ?>" />
-        <input type="hidden" name="street_address" value="<?= $user->address ?>" />
-        <!--<input type="hidden" name="suburb" value="<?//= $user->suburb ?>" />-->
-        <input type="hidden" name="postcode" value="<?= $user->zip ?>" />
-        <input type="hidden" name="city" value="<?= $user->city ?>" />
-        <input type="hidden" name="state" value="<?= $user->region ?>" />
+        <input type="hidden" name="email_address" value="<?php echo $user->email ?>" />
+        <input type="hidden" name="company" value="<?php echo $user->company ?>" />
+        <input type="hidden" name="street_address" value="<?php echo $user->address ?>" />
+        <!--<input type="hidden" name="suburb" value="<?php // echo $user->suburb ?>" />-->
+        <input type="hidden" name="postcode" value="<?php echo $user->zip ?>" />
+        <input type="hidden" name="city" value="<?php echo $user->city ?>" />
+        <input type="hidden" name="state" value="<?php echo $user->region ?>" />
         <input type="hidden" name="country" value="84" /> <!-- Greece -->
-        <input type="hidden" name="telephone" value="<?= (isset($user->mobile) && $user->mobile != "") ? $user->mobile : $user->phone ?>" />
-        <!--<input type="hidden" name="fax" value="<?//= $user->fax ?>" />-->
+        <input type="hidden" name="telephone" value="<?php echo (isset($user->mobile) && $user->mobile != "") ? $user->mobile : $user->phone ?>" />
+        <!--<input type="hidden" name="fax" value="<?php // echo $user->fax ?>" />-->
         <input type="hidden" name="newsletter" value="0" />
         <input type="hidden" name="mytype" value="2" />
         </form>
@@ -120,8 +120,8 @@ if (isset($_GET['code'])) {
 <?php  } else { ?>
         <?php // register a session variable to mark we come from oauth
            tep_session_register('oauth_login'); ?>
-        <?= tep_draw_form('login', $url[0], 'post', '', true) . tep_draw_hidden_field('action', 'process') ?>
-        <input type="hidden" name="email_address" value="<?= $user->email ?>" />
+        <?php echo tep_draw_form('login', $url[0], 'post', '', true) . tep_draw_hidden_field('action', 'process') ?>
+        <input type="hidden" name="email_address" value="<?php echo $user->email ?>" />
         <input type="hidden" name="mytype" value="1" />
         </form>
         <script type="text/javascript">
