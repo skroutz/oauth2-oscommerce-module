@@ -117,8 +117,8 @@ if (isset($_GET['code'])) {
         <script type="text/javascript">
             document.forms["create_account"].submit();
         </script>
-<?  } else { ?>
-        <? // register a session variable to mark we come from oauth
+<?php  } else { ?>
+        <?php // register a session variable to mark we come from oauth
            tep_session_register('oauth_login'); ?>
         <?= tep_draw_form('login', $url[0], 'post', '', true) . tep_draw_hidden_field('action', 'process') ?>
         <input type="hidden" name="email_address" value="<?= $user->email ?>" />
@@ -127,7 +127,7 @@ if (isset($_GET['code'])) {
         <script type="text/javascript">
             document.forms["login"].submit();
         </script>
-<?  }
+<?php  }
 } else if (isset($_GET['error'])) {
     require('includes/application_top.php');
 
