@@ -5,7 +5,7 @@ osCommerce v.2.3 Skroutz Easy module
 
 ### Requirements
 
- - [osCommerce v.2.3 - v.2.3.3](http://www.oscommerce.com)
+ - [osCommerce v.2.3 - v.2.3.3.4](http://www.oscommerce.com)
  - [PHP cURL](http://php.net/manual/en/book.curl.php)
 
 ### Installation instructions
@@ -40,7 +40,7 @@ osCommerce v.2.3 Skroutz Easy module
 
 ### Απαιτήσεις
 
- - [osCommerce v.2.3 - v.2.3.3](http://www.oscommerce.com)
+ - [osCommerce v.2.3 - v.2.3.3.4](http://www.oscommerce.com)
  - [PHP cURL](http://php.net/manual/en/book.curl.php)
 
 ### Οδηγίες εγκατάστασης
